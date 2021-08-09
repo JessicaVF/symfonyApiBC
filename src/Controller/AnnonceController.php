@@ -4,6 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Annonce;
 use App\Repository\AnnonceRepository;
+use App\Repository\GarageRepository;
+use App\Repository\MakeRepository;
+use App\Repository\ModelRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,13 +35,23 @@ class AnnonceController extends AbstractController
     /**
      * @Route("/annonce/create", name="createAnnonce", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $manager):Response
+    public function create(GarageRepository $garageRepository, UserRepository $userRepository, MakeRepository $makeRepository, ModelRepository $modelRepository, Request $request, SerializerInterface $serializer, EntityManagerInterface $manager):Response
     {
 
         $annonce = $serializer->deserialize($request->getContent(), Annonce::class, 'json');
 
-        $manager->persist($annonce);
+        $make = $makeRepository->find('3');
+        $model = $modelRepository->find('3');
+        $user = $userRepository->find('2');
+        $garage = $garageRepository->find('9');
 
+        $annonce->setMake($make);
+        $annonce->setModel($model);
+        $annonce->setAuthor($user);
+        $annonce->setGarage($garage);
+
+
+        $manager->persist($annonce);
         $manager->flush();
 
         return  $this->json($annonce);
@@ -49,7 +63,6 @@ class AnnonceController extends AbstractController
     {
 
         $annonceEdit = $serializer->deserialize($request->getContent(), Annonce::class, 'json');
-
 
         $manager->persist($annonce
         );

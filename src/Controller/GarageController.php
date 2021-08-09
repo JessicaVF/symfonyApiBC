@@ -36,45 +36,30 @@ class GarageController extends AbstractController
      */
     public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $manager, UserRepository $userRepository):Response
     {
-        //In this function i will have to set the user to current user and create a "address" entity before create the garage
 
-        //this probably will not work, i will have to set things differently
-        // lets try a solution, first lets try to extract the address GOOD
         $data = $request->toArray();
-
-        $addressInput= $data['address'];
-
-//        dd($addressInput);
-
-        $garage = $serializer->deserialize($request->getContent(), Garage::class, 'json');
-
-
-        //second: Lets try to do a new address entity. Lest try with dummy data
-//        $address = $serializer->deserialize($addressInput, Address::class, 'json');
-
-
+        $addressInput= $data[0];
 
         $address = new Address();
-        $address->setNumber(8);
-        $address ->setRoad("manless");
-        $address->setCodePostal(888);
-        $address->setCity("lyon");
-
-//        $address = new Address();
-//        $address->setNumber($addressInput['number'])
-//                ->setRoad($addressInput['road'])
-//                ->setCodePostal($addressInput['code_postal'])
-//                ->setCity($addressInput['code_postal']);
+        $address->setNumber($addressInput['number'])
+                ->setRoad($addressInput['road'])
+                ->setCodePostal($addressInput['code_postal'])
+                ->setCity($addressInput['city']);
+        if($addressInput['complement'] != ""){
+            $address->setComplement($addressInput['complement']);
+        }
 
         $manager->persist($address);
 
         $manager->flush();
 
-        dd($address);
+        $garageInfo = $serializer->serialize($data[1], 'json');
+
+        $garage = $serializer->deserialize($garageInfo, Garage::class, 'json');
 
         $garage->setAddress($address);
 
-        //dummy user a la pllce de current user
+        //dummy user a la place de current user
         $user = $userRepository->find('2');
         $garage->setUser($user);
 
