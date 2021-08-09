@@ -34,7 +34,6 @@ class UserController extends AbstractController
     public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $manager):Response
     {
 
-
         $user = $serializer->deserialize($request->getContent(), User::class, 'json');
 
         $manager->persist($user);
@@ -44,13 +43,12 @@ class UserController extends AbstractController
         return  $this->json($user);
     }
     /**
-     * @Route("/user/edit/{id}", name="editUser", methods={"PATCH"})
+     * @Route("/user/edit/{id}", name="editUser", methods={"PATCH"}, requirements={"id"="\d+"})
      */
     public function edit(User $user, SerializerInterface $serializer, Request $request, EntityManagerInterface $manager):Response
     {
 
         $userEdit = $serializer->deserialize($request->getContent(), User::class, 'json');
-
 
         if($userEdit->getFirstname()){
             $user->setFirstname($userEdit->getFirstname());
@@ -67,8 +65,6 @@ class UserController extends AbstractController
         if($userEdit->getSiret()){
             $user->setSiret($userEdit->getSiret());
         }
-
-        $user->setLastname($userEdit->getLastname());
 
         $manager->persist($user);
         $manager->flush();

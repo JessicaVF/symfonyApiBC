@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\GarageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=GarageRepository::class)
+ * @ApiResource()
  */
 class Garage
 {
@@ -24,13 +28,7 @@ class Garage
      */
     private $name;
 
-    /**
-     * @ORM\Column(type="text")
-     * @Groups({"garageDisplay"})
-     */
-    private $adress;
-
-    /**
+     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"garageDisplay"})
      */
@@ -42,6 +40,23 @@ class Garage
      * @Groups({"garageDisplay"})
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="garage", orphanRemoval=true)
+     * @Groups({"garageDisplay"})
+     */
+    private $annonces;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, inversedBy="garage", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
+
+    public function __construct()
+    {
+        $this->annonces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -56,18 +71,6 @@ class Garage
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getAdress(): ?string
-    {
-        return $this->adress;
-    }
-
-    public function setAdress(string $adress): self
-    {
-        $this->adress = $adress;
 
         return $this;
     }
@@ -92,6 +95,48 @@ class Garage
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Annonce[]
+     */
+    public function getAnnonces(): Collection
+    {
+        return $this->annonces;
+    }
+
+    public function addAnnonce(Annonce $annonce): self
+    {
+        if (!$this->annonces->contains($annonce)) {
+            $this->annonces[] = $annonce;
+            $annonce->setGarage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnonce(Annonce $annonce): self
+    {
+        if ($this->annonces->removeElement($annonce)) {
+            // set the owning side to null (unless already changed)
+            if ($annonce->getGarage() === $this) {
+                $annonce->setGarage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }
