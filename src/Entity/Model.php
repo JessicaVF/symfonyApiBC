@@ -7,6 +7,7 @@ use App\Repository\ModelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -23,12 +24,14 @@ class Model
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"annonceDisplay"})
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity=Make::class, inversedBy="models")
      * @ORM\JoinColumn(nullable=false)
+     *
      */
     private $make;
 

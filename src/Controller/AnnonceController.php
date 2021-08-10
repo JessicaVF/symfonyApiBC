@@ -30,7 +30,8 @@ class AnnonceController extends AbstractController
      */
     public function show(Annonce $annonce): Response
     {
-        return $this->json($annonce);
+        return $this->json($annonce, 200, [], ['groups' => 'annonceDisplay']);
+        //return $this->json($annonce);
     }
     /**
      * @Route("/annonce/create", name="createAnnonce", methods={"POST"})

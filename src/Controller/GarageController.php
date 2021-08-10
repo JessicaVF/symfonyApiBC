@@ -28,7 +28,7 @@ class GarageController extends AbstractController
      */
     public function show(Garage $garage): Response
     {
-//        return $this->json($garage, 200, [], ['groups' => 'garageDisplay']);
+
         return $this->json($garage, 200, [], ['groups' => 'garageDisplay']);
     }
     /**

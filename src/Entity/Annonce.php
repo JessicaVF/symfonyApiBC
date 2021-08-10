@@ -17,49 +17,57 @@ class Annonce
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"annonceDisplay"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"annonceDisplay"})
      */
     private $photos = [];
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
+     *@Groups({"annonceDisplay"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"annonceDisplay"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"annonceDisplay"})
      */
     private $circulationYear;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"annonceDisplay"})
      */
     private $kilometers;
 
     /**
      * @ORM\ManyToOne(targetEntity=Make::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"annonceDisplay"})
      */
     private $make;
 
     /**
      * @ORM\ManyToOne(targetEntity=Model::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"annonceDisplay"})
      */
     private $model;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"annonceDisplay"})
      */
     private $fuelType;
 
@@ -74,6 +82,18 @@ class Annonce
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"annonceDisplay"})
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"annonceDisplay"})
+     */
+    private $shortDescription;
 
     public function getId(): ?int
     {
@@ -196,6 +216,30 @@ class Annonce
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(string $shortDescription): self
+    {
+        $this->shortDescription = $shortDescription;
 
         return $this;
     }
