@@ -16,7 +16,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/all", name="userAll")
      */
-    public function displayAllUsers(UserRepository $repository, SerializerInterface $serializer): Response
+    public function displayAllUsers(UserRepository $repository): Response
     {
         $users = $repository->findAll();
         return $this->json($users);

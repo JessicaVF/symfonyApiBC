@@ -19,17 +19,19 @@ class Make
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"makeDisplay"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"annonceDisplay"})
+     * @Groups({"annonceDisplay", "makeDisplay"})
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Model::class, mappedBy="make", orphanRemoval=true)
+     * @Groups({"makeDisplay", "modelsDisplay" })
      */
     private $models;
 

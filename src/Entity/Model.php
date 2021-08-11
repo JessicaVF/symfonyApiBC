@@ -24,7 +24,7 @@ class Model
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"annonceDisplay"})
+     * @Groups({"annonceDisplay", "makeDisplay", "modelsDisplay"})
      */
     private $name;
 
