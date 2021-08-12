@@ -53,20 +53,56 @@ class AnnonceRepository extends ServiceEntityRepository
    *
    */
 
-    public function findAllByUserSelection($value, $circulation_year)
+    public function findAllByUserSelection($make =false, $model=false, $fuelType=false, $kilometers=false, $circulationYear=false, $price=false)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.kilometers = :val')
-            ->andWhere('a.circulationYear = :val2')
-            ->setParameters(new ArrayCollection([
-                new Parameter('val', $value),
-                new Parameter('val2', $circulation_year)
-            ]))
+        $parameters = new ArrayCollection();
+        $qb = $this->createQueryBuilder('a');
+
+        if($make)
+        {
+            $qb->andWhere('a.make = :make');
+            $parameters->add(new Parameter('make', $make));
+        }
+        if($model)
+        {
+            $qb->andWhere('a.model = :model');
+            $parameters->add(new Parameter('model', $model));
+        }
+        if($fuelType)
+        {
+            $qb->andWhere('a.circulationYear = :fuelType');
+            $parameters->add(new Parameter('fuelType', $fuelType));
+        }
+        if($kilometers)
+        {
+            $qb->andWhere('a.kilometers >= :kilometersMin');
+            $parameters->add(new Parameter('kilometersMin', $kilometers[0]));
+            $qb->andWhere('a.kilometers <= :kilometersMax');
+            $parameters->add(new Parameter('kilometersMax', $kilometers[1]));
+        }
+
+        if($circulationYear)
+        {
+            $qb->andWhere('a.circulationYear >= :circulationYearMin');
+            $parameters->add(new Parameter('circulationYearMin', $circulationYear[0]));
+            $qb->andWhere('a.circulationYear <= :circulationYearMax');
+            $parameters->add(new Parameter('circulationYearMax', $circulationYear[1]));
+        }
+        if($price)
+        {
+            $qb->andWhere('a.price >= :priceMin');
+            $parameters->add(new Parameter('priceMin', $price[0]));
+            $qb->andWhere('a.price <= :priceMax');
+            $parameters->add(new Parameter('priceMax', $price[1]));
+        }
+
+             return $qb->setParameters($parameters)
             ->orderBy('a.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
+             ->getResult()
         ;
+
     }
 
 

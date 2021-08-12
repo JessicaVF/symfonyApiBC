@@ -85,9 +85,8 @@ class AnnonceController extends AbstractController
      */
     public function search(AnnonceRepository $repository):Response
     {
-        $annonces = $repository->findAllByUserSelection(
-            100, 2009
-        );
+//        $kilometers = [50, 120];
+        $annonces = $repository->findAllByUserSelection(3);
         dd($annonces);
 
 
