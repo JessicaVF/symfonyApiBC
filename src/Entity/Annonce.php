@@ -66,7 +66,8 @@ class Annonce
     private $model;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=FuelType::class, inversedBy="annonces")
+     * @ORM\JoinColumn(nullable=false)
      * @Groups({"annonceDisplay"})
      */
     private $fuelType;
@@ -184,12 +185,12 @@ class Annonce
         return $this;
     }
 
-    public function getFuelType(): ?string
+    public function getFuelType(): ?FuelType
     {
         return $this->fuelType;
     }
 
-    public function setFuelType(string $fuelType): self
+    public function setFuelType(?fuelType $fuelType): self
     {
         $this->fuelType = $fuelType;
 

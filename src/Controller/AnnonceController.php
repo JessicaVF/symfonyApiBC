@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AnnonceController extends AbstractController
 {
     /**
-     * @Route("/annonce/all", name="annonceAll")
+     * @Route("/annonce/all", name="annonceAll", methods={"GET"})
      */
     public function index(AnnonceRepository $repository, SerializerInterface $serializer): Response
     {
@@ -26,7 +26,7 @@ class AnnonceController extends AbstractController
         return $this->json($annonce);
     }
     /**
-     * @Route("/annonce/show/{id}", name="showAnnonce", requirements={"id"="\d+"})
+     * @Route("/annonce/show/{id}", name="showAnnonce", requirements={"id"="\d+"}, methods={"GET"})
      */
     public function show(Annonce $annonce): Response
     {
@@ -79,5 +79,17 @@ class AnnonceController extends AbstractController
         $manager->remove($annonce);
         $manager->flush();
         return $this->json("ok");
+    }
+    /**
+     * @Route("annonce/search", name="searchAnnonce", methods={"GET"})
+     */
+    public function search(AnnonceRepository $repository):Response
+    {
+        $annonces = $repository->findAllByUserSelection(
+            100, 2009
+        );
+        dd($annonces);
+
+
     }
 }

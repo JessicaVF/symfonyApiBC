@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Annonce;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 
 /**
  * @method Annonce|null find($id, $lockMode = null, $lockVersion = null)
@@ -46,5 +48,26 @@ class AnnonceRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+    /**
+    * @return Annonce[] Returns an array of Annonce objects
+   *
+   */
+
+    public function findAllByUserSelection($value, $circulation_year)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.kilometers = :val')
+            ->andWhere('a.circulationYear = :val2')
+            ->setParameters(new ArrayCollection([
+                new Parameter('val', $value),
+                new Parameter('val2', $circulation_year)
+            ]))
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
 }
