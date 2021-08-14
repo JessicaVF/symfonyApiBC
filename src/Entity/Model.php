@@ -19,6 +19,7 @@ class Model
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"modelsDisplay"})
      */
     private $id;
 

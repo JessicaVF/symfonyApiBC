@@ -31,7 +31,7 @@ class AnnonceController extends AbstractController
     public function show(Annonce $annonce): Response
     {
         return $this->json($annonce, 200, [], ['groups' => 'annonceDisplay']);
-        //return $this->json($annonce);
+
     }
     /**
      * @Route("/annonce/create", name="createAnnonce", methods={"POST"})
@@ -81,14 +81,14 @@ class AnnonceController extends AbstractController
         return $this->json("ok");
     }
     /**
-     * @Route("annonce/search", name="searchAnnonce", methods={"GET"})
+     * @Route("annonce/search", name="searchAnnonce", methods={"POST"})
      */
-    public function search(AnnonceRepository $repository):Response
+    public function search(Request $request, AnnonceRepository $repository):Response
     {
-//        $kilometers = [50, 120];
-        $annonces = $repository->findAllByUserSelection(3);
-        dd($annonces);
+        $data = $request->toArray();
+        $annonces = $repository->findAllByUserSelection($data['make']);
 
+        return $this->json($annonces, 200, [], ['groups' => 'annonceDisplay']);
 
     }
 }

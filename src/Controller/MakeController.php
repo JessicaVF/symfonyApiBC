@@ -24,8 +24,8 @@ class MakeController extends AbstractController
      * @Route("/make/{id}/models", name="modelsByMake")
      */
     public function getModels(Make $make): Response{
-        $models = $make->getModels();
 
+        $models = $make->getModels();
         return $this->json($models, 200, [], ['groups' => 'modelsDisplay']);
     }
 }
