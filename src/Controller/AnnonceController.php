@@ -86,7 +86,8 @@ class AnnonceController extends AbstractController
     public function search(Request $request, AnnonceRepository $repository):Response
     {
         $data = $request->toArray();
-        $annonces = $repository->findAllByUserSelection($data['make']);
+
+        $annonces = $repository->findAllByUserSelection($data['make'], $data['model'], $data['fuelType'], $data['kilometers'], $data['circulationYear'], $data['price'] );
 
         return $this->json($annonces, 200, [], ['groups' => 'annonceDisplay']);
 

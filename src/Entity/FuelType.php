@@ -18,6 +18,7 @@ class FuelType
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * * @Groups({"fuelTypeDisplay"})
      */
     private $id;
 

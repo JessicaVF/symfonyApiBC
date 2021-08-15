@@ -70,7 +70,7 @@ class AnnonceRepository extends ServiceEntityRepository
         }
         if($fuelType)
         {
-            $qb->andWhere('a.circulationYear = :fuelType');
+            $qb->andWhere('a.fuelType = :fuelType');
             $parameters->add(new Parameter('fuelType', $fuelType));
         }
         if($kilometers)
