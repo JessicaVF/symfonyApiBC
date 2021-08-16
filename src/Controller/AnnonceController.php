@@ -22,9 +22,10 @@ class AnnonceController extends AbstractController
      */
     public function index(AnnonceRepository $repository, SerializerInterface $serializer): Response
     {
-        $annonce = $repository->findAll();
-        return $this->json($annonce);
-    }
+
+       $annonces = $repository ->findBy(array(), array('id' => 'desc'));
+        return $this->json($annonces);
+  }
     /**
      * @Route("/annonce/show/{id}", name="showAnnonce", requirements={"id"="\d+"}, methods={"GET"})
      */

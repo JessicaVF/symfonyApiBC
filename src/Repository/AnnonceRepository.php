@@ -97,7 +97,7 @@ class AnnonceRepository extends ServiceEntityRepository
         }
 
              return $qb->setParameters($parameters)
-            ->orderBy('a.id', 'ASC')
+            ->orderBy('a.id', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
              ->getResult()
