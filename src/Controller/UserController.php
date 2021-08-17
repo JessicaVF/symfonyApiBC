@@ -50,21 +50,17 @@ class UserController extends AbstractController
 
         $userEdit = $serializer->deserialize($request->getContent(), User::class, 'json');
 
-        if($userEdit->getFirstname()){
+
             $user->setFirstname($userEdit->getFirstname());
-        }
-        if($userEdit->getLastname()){
+
             $user->setLastname($userEdit->getLastname());
-        }
-        if($userEdit->getEmail()){
+
             $user->setEmail($userEdit->getEmail());
-        }
-        if($userEdit->getTelephone()){
+
             $user->setTelephone($userEdit->getTelephone());
-        }
-        if($userEdit->getSiret()){
+
             $user->setSiret($userEdit->getSiret());
-        }
+
 
         $manager->persist($user);
         $manager->flush();
