@@ -15,6 +15,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ORM\Table(name="`user`")
  * @UniqueEntity("siret")
  * @ApiResource()
+ * use Symfony\Component\Serializer\Annotation\Groups;
  *
  */
 class User
@@ -23,47 +24,55 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"userDisplay"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"garageDisplay"})
+     * @Groups({"userDisplay"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"userDisplay"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"userDisplay"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"userDisplay"})
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Groups({"userDisplay"})
      */
     private $siret;
 
     /**
      * @ORM\OneToMany(targetEntity=Garage::class, mappedBy="user", orphanRemoval=true)
+     * @Groups({"userDisplay"})
      */
     private $garages;
 
     /**
      * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="author", orphanRemoval=true)
+     * @Groups({"userDisplay"})
      */
     private $annonces;
 
     /**
      * @ORM\Column(type="json", nullable=true)
+     * @Groups({"userDisplay"})
      */
     private $roles = [];
 
