@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -26,15 +27,19 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        return $this->json($user);
+        return $this->json($user, 200, [], ['groups' => 'userDisplay']);
     }
     /**
      * @Route("/user/create", name="createUser", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $manager):Response
+    public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher):Response
     {
 
         $user = $serializer->deserialize($request->getContent(), User::class, 'json');
+
+        $hashedPassword = $hasher->hashPassword($user, $user->getPassword());
+
+        $user->setPassword($hashedPassword);
 
         $manager->persist($user);
 
@@ -60,7 +65,6 @@ class UserController extends AbstractController
             $user->setTelephone($userEdit->getTelephone());
 
             $user->setSiret($userEdit->getSiret());
-
 
         $manager->persist($user);
         $manager->flush();
