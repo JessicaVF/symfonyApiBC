@@ -17,7 +17,7 @@ class Annonce
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"annonceDisplay"})
+     * @Groups({"annonceDisplay", "userDisplay"})
      */
     private $id;
 
@@ -29,7 +29,7 @@ class Annonce
 
     /**
      * @ORM\Column(type="string", length=255)
-     *@Groups({"annonceDisplay"})
+     *@Groups({"annonceDisplay", "userDisplay"})
      */
     private $title;
 

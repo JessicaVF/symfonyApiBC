@@ -83,6 +83,11 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $username;
+
     public function __construct()
     {
         $this->garages = new ArrayCollection();
@@ -216,7 +221,9 @@ class User implements UserInterface
 
     public function getRoles(): ?array
     {
-        return $this->roles;
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
 
     public function setRoles(?array $roles): self
@@ -251,10 +258,20 @@ class User implements UserInterface
     public function getUsername()
     {
         // TODO: Implement getUsername() method.
+        return $this->username;
     }
 
     public function __call($name, $arguments)
     {
         // TODO: Implement @method string getUserIdentifier()
+        return $this->email;
     }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
 }
