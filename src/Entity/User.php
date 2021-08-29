@@ -43,7 +43,7 @@ class User implements UserInterface
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"userDisplay"})
      */
     private $email;
@@ -55,7 +55,7 @@ class User implements UserInterface
     private $telephone;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="bigint", unique=true)
      * @Groups({"userDisplay"})
      */
     private $siret;
@@ -84,7 +84,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $username;
 
