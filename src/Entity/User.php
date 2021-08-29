@@ -84,7 +84,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $username;
 

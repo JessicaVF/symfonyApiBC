@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController extends AbstractController
@@ -23,11 +24,19 @@ class UserController extends AbstractController
         return $this->json($users);
     }
     /**
-     * @Route("/user/show/{id}", name="showUser", requirements={"id"="\d+"})
+     * @Route("/api/user/show", name="show_user", methods={"GET"})
+     * @Route("/api/user/show/{id}", name="showUser", requirements={"id"="\d+"})
+     *
      */
-    public function show(User $user): Response
+    public function show(UserInterface $currentUser, User $user = null): Response
     {
-        return $this->json($user, 200, [], ['groups' => 'userDisplay']);
+
+        if(!$user){
+            $user= $currentUser;
+        }
+
+            return $this->json($user, 200, [], ['groups' => 'userDisplay']);
+
     }
     /**
      * @Route("/user/create", name="createUser", methods={"POST"})
@@ -80,4 +89,12 @@ class UserController extends AbstractController
         $manager->flush();
         return $this->json("ok");
     }
+    /**
+     * @Route("api/user/test", name = "userTest", methods={"GET"})
+     */
+    public function test(UserInterface $currentUser){
+        $user = $currentUser;
+        return $this->json($user, 200, [], ['groups' => 'userDisplay']);
+    }
+
 }
