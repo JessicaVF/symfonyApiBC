@@ -35,7 +35,8 @@ class UserController extends AbstractController
             $user= $currentUser;
         }
 
-            return $this->json($user, 200, [], ['groups' => 'userDisplay']);
+//            return $this->json($user, 200, [], ['groups' => 'userDisplay']);
+        return $this->json($user);
 
     }
     /**
@@ -75,9 +76,27 @@ class UserController extends AbstractController
 
             $user->setSiret($userEdit->getSiret());
 
+            $user->setUsername($userEdit->getUsername());
+
         $manager->persist($user);
         $manager->flush();
         return  $this->json($user);
+    }
+    /**
+     * @Route("api/user/editPassword/{id}", name="editPassword", methods={"PATCH"}, requirements={"id"="\d+"})
+     */
+    public function editPassword(User $user, Request $request, UserInterface $currentUser, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager)
+    {
+        $data = $request->toArray();
+        $currentPasswordSendByUser = $data['currentPassword'];
+        if($hasher->isPasswordValid($currentUser, $currentPasswordSendByUser)){
+            $user->setPassword($data['newPassword']);
+            $hashedPassword = $hasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($hashedPassword);
+            $manager->persist($user);
+            $manager->flush();
+        }
+        return $this->json("ok");
     }
     /**
      *
