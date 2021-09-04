@@ -34,9 +34,9 @@ class UserController extends AbstractController
         if(!$user){
             $user= $currentUser;
         }
-
-//            return $this->json($user, 200, [], ['groups' => 'userDisplay']);
-        return $this->json($user);
+        return $this->json($user, 200, [], ['groups' => 'userDisplay']);
+//        $garages = $user->getGarages();
+//        return $this->json($user);
 
     }
     /**

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Address;
 use App\Entity\Garage;
+use App\Entity\User;
 use App\Repository\GarageRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class GarageController extends AbstractController
@@ -22,6 +24,15 @@ class GarageController extends AbstractController
     {
         $garages = $repository->findAll();
         return $this->json($garages, 200, [], ['groups' => 'garageDisplay']);
+    }
+    /**
+     * @Route("/garage/allByUser/{id}", name="allGaragesByUser")
+     */
+    public function getAllByUser(User $user)
+    {
+        $garages = $user->getGarages();
+        return $this->json($garages, 200, [], ['groups' => 'garageDisplay']);
+
     }
     /**
      * @Route("/garage/show/{id}", name="showGarage", requirements={"id"="\d+"})
@@ -92,7 +103,7 @@ class GarageController extends AbstractController
      *
      * @Route("garage/delete/{id}", name="deleteGarage", methods={"DELETE"}, requirements={"id"="\d+"})
      */
-    public function deleteUser(Garage $garage, EntityManagerInterface $manager): Response
+    public function delete(Garage $garage, EntityManagerInterface $manager): Response
     {
         $manager->remove($garage);
         $manager->flush();

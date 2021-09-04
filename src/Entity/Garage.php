@@ -19,7 +19,7 @@ class Garage
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * * @Groups({"userDisplay"})
+     * @Groups({"garageDisplay", "userDisplay"})
      */
     private $id;
 
@@ -51,6 +51,7 @@ class Garage
     /**
      * @ORM\OneToOne(targetEntity=Address::class, inversedBy="garage", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"garageDisplay"})
      */
     private $address;
 

@@ -5,10 +5,11 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=AddressRepository::class)
+ *
  */
 class Address
 {
@@ -16,31 +17,37 @@ class Address
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"garageDisplay"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"garageDisplay"})
      */
     private $number;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"garageDisplay"})
      */
     private $complement;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"garageDisplay"})
      */
     private $road;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"garageDisplay"})
      */
     private $codePostal;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"garageDisplay"})
      */
     private $city;
 
