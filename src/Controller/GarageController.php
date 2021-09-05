@@ -26,10 +26,16 @@ class GarageController extends AbstractController
         return $this->json($garages, 200, [], ['groups' => 'garageDisplay']);
     }
     /**
-     * @Route("/garage/allByUser/{id}", name="allGaragesByUser")
+     * @Route("/api/garage/allByUser", name="allGaragesByUser")
+     * @Route("/api/garage/allByUser/{id}", name="allGaragesByUserAdmin", requirements={"id"="\d+"})
      */
-    public function getAllByUser(User $user)
+    public function getAllByUser(User $user=null, UserInterface $currentUser, UserRepository $userRepository)
     {
+       if(!$user){
+           $userEmail = $currentUser->getUserIdentifier();
+           $user = $userRepository->findOneByEmail($userEmail);
+       }
+
         $garages = $user->getGarages();
         return $this->json($garages, 200, [], ['groups' => 'garageDisplay']);
 
