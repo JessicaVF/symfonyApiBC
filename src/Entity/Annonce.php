@@ -81,6 +81,7 @@ class Annonce
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"annonceDisplay"})
      */
     private $author;
 

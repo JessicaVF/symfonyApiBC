@@ -42,7 +42,7 @@ class AnnonceController extends AbstractController
         }
 
         $annonces = $user->getAnnonces();
-        return $this->json($annonces);
+        return $this->json($annonces, 200, [], ['groups' => 'annonceDisplay']);
 
     }
     /**
