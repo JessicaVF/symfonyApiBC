@@ -61,28 +61,24 @@ class GarageController extends AbstractController
         $address = new Address();
         $address->setNumber($addressInput['number'])
                 ->setRoad($addressInput['road'])
-                ->setCodePostal($addressInput['code_postal'])
+                ->setCodePostal($addressInput['codePostal'])
                 ->setCity($addressInput['city']);
         if($addressInput['complement'] != ""){
             $address->setComplement($addressInput['complement']);
         }
 
         $manager->persist($address);
-
         $manager->flush();
 
-        $garageInfo = $serializer->serialize($data[1], 'json');
-
-        $garage = $serializer->deserialize($garageInfo, Garage::class, 'json');
-
-        $garage->setAddress($address);
-
-        //dummy user a la place de current user
-        $user = $userRepository->find('2');
-        $garage->setUser($user);
+        $garageInput = $data[1];
+        $user = $userRepository->find($garageInput['user']);
+        $garage = new Garage();
+        $garage->setName($garageInput['name'])
+                ->setTelephone($garageInput['telephone'])
+                ->setAddress($address)
+                ->setUser($user);
 
         $manager->persist($garage);
-
         $manager->flush();
 
         return  $this->json($garage);
