@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Annonce;
 use App\Entity\FuelType;
+use App\Entity\User;
 use App\Repository\AnnonceRepository;
 use App\Repository\FuelTypeRepository;
 use App\Repository\GarageRepository;
@@ -15,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class AnnonceController extends AbstractController
@@ -27,7 +29,22 @@ class AnnonceController extends AbstractController
 
        $annonces = $repository ->findBy(array(), array('id' => 'desc'));
         return $this->json($annonces);
-  }
+    }
+    /**
+     * @Route("/api/annonce/allByUser", name="allAnnoncesByUser")
+     * @Route("/api/annonce/allByUser/{id}", name="allAnnoncesByUserAdmin", requirements={"id"="\d+"})
+     */
+    public function getAllByUser(User $user=null, UserInterface $currentUser, UserRepository $userRepository)
+    {
+        if(!$user){
+            $userEmail = $currentUser->getUserIdentifier();
+            $user = $userRepository->findOneByEmail($userEmail);
+        }
+
+        $annonces = $user->getAnnonces();
+        return $this->json($annonces);
+
+    }
     /**
      * @Route("/annonce/show/{id}", name="showAnnonce", requirements={"id"="\d+"}, methods={"GET"})
      */
