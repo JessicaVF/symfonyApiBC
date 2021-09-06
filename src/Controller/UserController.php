@@ -86,7 +86,8 @@ class UserController extends AbstractController
      * @Route("api/user/editPassword/{id}", name="editPassword", methods={"PATCH"}, requirements={"id"="\d+"})
      */
     public function editPassword(User $user, Request $request, UserInterface $currentUser, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager)
-    {   $message = "vous n`avez pas perimission pour changer le mot de passe";
+    {
+        $message = "vous n`avez pas perimission pour changer le mot de passe";
         if($user == $currentUser) {
             $data = $request->toArray();
             $currentPasswordSendByUser = $data['currentPassword'];

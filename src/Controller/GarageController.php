@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Address;
 use App\Entity\Garage;
 use App\Entity\User;
+use App\Repository\AddressRepository;
 use App\Repository\GarageRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -89,17 +90,35 @@ class GarageController extends AbstractController
     /**
      * @Route("/garage/edit/{id}", name="editGarage", methods={"PATCH"}, requirements={"id"="\d+"})
      */
-    public function edit(Garage $garage, SerializerInterface $serializer, Request $request, EntityManagerInterface $manager):Response
+    public function edit(Garage $garage, AddressRepository  $addressRepository,SerializerInterface $serializer, Request $request, EntityManagerInterface $manager):Response
     {
-        $garageEdit = $serializer->deserialize($request->getContent(), Garage::class, 'json');
 
-        if($garageEdit->getName()){
-            $garage->setName($garageEdit->getName());
+        $data = $request->toArray();
+
+        $addressInput= $data[0];
+
+        $address = $addressRepository->find($addressInput['id']);
+
+        $address->setNumber($addressInput['number'])
+            ->setComplement(($addressInput['complement']))
+            ->setRoad($addressInput['road'])
+            ->setCodePostal($addressInput['codePostal'])
+            ->setCity($addressInput['city']);
+
+        $manager->persist($address);
+        $manager->flush();
+
+
+        $garageEdit = $data[1];
+
+        if($garageEdit['name'] != $garage->getName()){
+            $garage->setName($garageEdit['name']);
         }
-        if($garageEdit->getTelephone()){
-            $garage->setTelephone($garageEdit->getTelephone());
+
+        if($garageEdit['telephone'] != $garage->getTelephone()) {
+            $garage->setTelephone($garageEdit['telephone']);
         }
-        // aca habra que maniobrar con las address
+
 
         $manager->persist($garage);
         $manager->flush();
