@@ -28,7 +28,8 @@ class AnnonceController extends AbstractController
     {
 
        $annonces = $repository ->findBy(array(), array('id' => 'desc'));
-        return $this->json($annonces);
+//        return $this->json($annonces);
+        return $this->json($annonces, 200, [], ['groups' => 'annonceDisplay']);
     }
     /**
      * @Route("/api/annonce/allByUser", name="allAnnoncesByUser")
@@ -88,10 +89,16 @@ class AnnonceController extends AbstractController
     public function edit(Annonce $annonce, SerializerInterface $serializer, Request $request, EntityManagerInterface $manager):Response
     {
 
-        $annonceEdit = $serializer->deserialize($request->getContent(), Annonce::class, 'json');
+        $annonceEdit = $request->toArray();
+        $annonce->setTitle($annonceEdit['title'])
+                ->setDescription($annonceEdit['description'])
+                ->setShortDescription($annonceEdit['shortDescription'])
+                ->setPrice($annonceEdit['price'])
+                ->setCirculationYear($annonceEdit['circulationYear'])
+                ->setKilometers($annonceEdit['kilometers'])
+                ->setPhotos($annonceEdit['photos']);
 
-        $manager->persist($annonce
-        );
+        $manager->persist($annonce);
         $manager->flush();
         return  $this->json($annonce);
     }
