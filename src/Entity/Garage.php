@@ -19,7 +19,7 @@ class Garage
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"garageDisplay", "userDisplay"})
+     * @Groups({"garageDisplay", "userDisplay", "annonceDisplay"})
      */
     private $id;
 

@@ -50,9 +50,9 @@ class GarageController extends AbstractController
         return $this->json($garage, 200, [], ['groups' => 'garageDisplay']);
     }
     /**
-     * @Route("/garage/create", name="createGarage", methods={"POST"})
+     * @Route("api/garage/create", name="createGarage", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $manager, UserRepository $userRepository):Response
+    public function create(UserInterface $currentUser, Request $request, SerializerInterface $serializer, EntityManagerInterface $manager, UserRepository $userRepository):Response
     {
 
         $data = $request->toArray();
@@ -71,12 +71,12 @@ class GarageController extends AbstractController
         $manager->flush();
 
         $garageInput = $data[1];
-        $user = $userRepository->find($garageInput['user']);
+//        $user = $userRepository->find($garageInput['user']);
         $garage = new Garage();
         $garage->setName($garageInput['name'])
                 ->setTelephone($garageInput['telephone'])
                 ->setAddress($address)
-                ->setUser($user);
+                ->setUser($currentUser);
 
         $manager->persist($garage);
         $manager->flush();
