@@ -19,39 +19,39 @@ class Garage
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"garageDisplay", "userDisplay", "annonceDisplay"})
+     * @Groups({"garageDisplay", "userDisplay", "annonceDisplay", "adminGarageDisplay"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"garageDisplay", "userDisplay"})
+     * @Groups({"garageDisplay", "userDisplay", "adminGarageDisplay"})
      */
     private $name;
 
      /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"garageDisplay"})
+     * @Groups({"garageDisplay", "adminGarageDisplay"})
      */
     private $telephone;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="garages")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"garageDisplay"})
+     * @Groups({"garageDisplay", "adminGarageDisplay"})
      */
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="garage", orphanRemoval=true)
-     * @Groups({"garageDisplay"})
+     * @Groups({"garageDisplay", "adminGarageDisplay"})
      */
     private $annonces;
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, inversedBy="garage", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"garageDisplay"})
+     * @Groups({"garageDisplay", "adminGarageDisplay"})
      */
     private $address;
 

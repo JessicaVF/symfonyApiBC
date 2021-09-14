@@ -36,13 +36,15 @@ class AdminController extends AbstractController
      */
     public function allGarages(GarageRepository $garageRepository){
         $garages = $garageRepository->findAll();
-        return $this->json($garages);
+//        return $this->json($garages);
+        return $this->json($garages, 200, [], ['groups' => 'adminGarageDisplay']);
     }
     /**
      * @Route("admin/allAnnonces", name="allAnnonces", methods={"GET"})
      */
-    public function allAnnonces(AnnonceRepository $annonceRepository){
+    public function allAnnonces(AnnonceRepository $annonceRepository)
+    {
         $annonces = $annonceRepository->findAll();
-        return $this->json($annonces);
+        return $this->json($annonces, 200, [], ['groups' => 'adminAnnonceDisplay']);
     }
 }

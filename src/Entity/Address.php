@@ -23,31 +23,31 @@ class Address
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"garageDisplay"})
+     * @Groups({"garageDisplay", "adminGarageDisplay"})
      */
     private $number;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"garageDisplay"})
+     * @Groups({"garageDisplay", "adminGarageDisplay"})
      */
     private $complement;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"garageDisplay"})
+     * @Groups({"garageDisplay", "adminGarageDisplay"})
      */
     private $road;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"garageDisplay"})
+     * @Groups({"garageDisplay", "adminGarageDisplay"})
      */
     private $codePostal;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"garageDisplay"})
+     * @Groups({"garageDisplay", "adminGarageDisplay"})
      */
     private $city;
 
