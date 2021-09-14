@@ -17,19 +17,19 @@ class Annonce
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"annonceDisplay", "userDisplay"})
+     * @Groups({"annonceDisplay", "userDisplay", "adminAnnonceDisplay"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"annonceDisplay"})
+     * @Groups({"annonceDisplay", "adminAnnonceDisplay"})
      */
     private $photos = [];
 
     /**
      * @ORM\Column(type="string", length=255)
-     *@Groups({"annonceDisplay", "userDisplay"})
+     *@Groups({"annonceDisplay", "userDisplay", "adminAnnonceDisplay"})
      */
     private $title;
 
@@ -75,26 +75,26 @@ class Annonce
     /**
      * @ORM\ManyToOne(targetEntity=Garage::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"annonceDisplay"})
+     * @Groups({"annonceDisplay", "adminAnnonceDisplay"})
      */
     private $garage;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"annonceDisplay"})
+     * @Groups({"annonceDisplay", "adminAnnonceDisplay"})
      */
     private $author;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"annonceDisplay"})
+     * @Groups({"annonceDisplay", "adminAnnonceDisplay"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"annonceDisplay"})
+     * @Groups({"annonceDisplay", "adminAnnonceDisplay"})
      */
     private $shortDescription;
 

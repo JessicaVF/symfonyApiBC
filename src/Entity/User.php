@@ -26,19 +26,19 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"userDisplay", "garageDisplay", "annonceDisplay", "adminGarageDisplay"})
+     * @Groups({"userDisplay", "garageDisplay", "annonceDisplay", "adminGarageDisplay", "adminAnnonceDisplay"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"userDisplay", "adminGarageDisplay"})
+     * @Groups({"userDisplay", "adminGarageDisplay", "adminAnnonceDisplay"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"userDisplay", "adminGarageDisplay"})
+     * @Groups({"userDisplay", "adminGarageDisplay", "adminAnnonceDisplay"})
      */
     private $firstname;
 

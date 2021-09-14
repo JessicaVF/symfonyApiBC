@@ -90,13 +90,27 @@ class AnnonceController extends AbstractController
     {
 
         $annonceEdit = $request->toArray();
-        $annonce->setTitle($annonceEdit['title'])
-                ->setDescription($annonceEdit['description'])
-                ->setShortDescription($annonceEdit['shortDescription'])
-                ->setPrice($annonceEdit['price'])
-                ->setCirculationYear($annonceEdit['circulationYear'])
-                ->setKilometers($annonceEdit['kilometers'])
-                ->setPhotos($annonceEdit['photos']);
+        if($annonceEdit['title']){
+            $annonce->setTitle($annonceEdit['title']);
+        }
+        if($annonceEdit['description']){
+            $annonce->setDescription($annonceEdit['description']);
+        }
+        if($annonceEdit['shortDescription']){
+            $annonce->setShortDescription($annonceEdit['shortDescription']);
+        }
+        if($annonceEdit['price']){
+                $annonce->setPrice($annonceEdit['price']);
+        }
+        if($annonceEdit['circulationYear']){
+            $annonce->setCirculationYear($annonceEdit['circulationYear']);
+        }
+        if($annonceEdit['kilometers']){
+            $annonce->setKilometers($annonceEdit['kilometers']);
+        }
+        if($annonceEdit['photos']){
+            $annonce->setPhotos($annonceEdit['photos']);
+        }
 
         $manager->persist($annonce);
         $manager->flush();
