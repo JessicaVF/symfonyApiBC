@@ -115,18 +115,6 @@ class UserController extends AbstractController
         return $this->json("ok");
     }
     /**
-     * @Route("admin/quickStats", name="quickStats", methods={"GET"})
-     */
-    public function quickStats(UserRepository $userRepository, GarageRepository $garageRepository, AnnonceRepository $annonceRepository): Response
-    {
-        $totalGarages = count($garageRepository->findAll());
-        $totalAnnonces = count($annonceRepository->findAll());
-        $totalUsers = count($userRepository->findAll());
-        $stats = ['totalGarages'=> $totalGarages, 'totalAnnonces'=>$totalAnnonces, 'totalUsers'=>$totalUsers];
-        return $this->json($stats);
-    }
-
-    /**
      * @Route("api/user/test", name = "userTest", methods={"GET"})
      */
     public function test(UserInterface $currentUser){
