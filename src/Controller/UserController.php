@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\AnnonceRepository;
+use App\Repository\GarageRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -112,6 +114,18 @@ class UserController extends AbstractController
         $manager->flush();
         return $this->json("ok");
     }
+    /**
+     * @Route("admin/quickStats", name="quickStats", methods={"GET"})
+     */
+    public function quickStats(UserRepository $userRepository, GarageRepository $garageRepository, AnnonceRepository $annonceRepository): Response
+    {
+        $totalGarages = count($garageRepository->findAll());
+        $totalAnnonces = count($annonceRepository->findAll());
+        $totalUsers = count($userRepository->findAll());
+        $stats = ['totalGarages'=> $totalGarages, 'totalAnnonces'=>$totalAnnonces, 'totalUsers'=>$totalUsers];
+        return $this->json($stats);
+    }
+
     /**
      * @Route("api/user/test", name = "userTest", methods={"GET"})
      */
