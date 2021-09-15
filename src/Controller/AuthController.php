@@ -31,10 +31,10 @@ class AuthController extends AbstractController
      */
     public function isAdmin(UserInterface $currentUser)
     {
-        $isAdmin = false;
+
         if(in_array("ROLE_ADMIN", $currentUser->getRoles())){
-            $isAdmin = true;
+            return $this->json(true);
         }
-        return $this->json($isAdmin);
+        return $this->json(false);
     }
 }
