@@ -47,4 +47,12 @@ class AdminController extends AbstractController
         $annonces = $annonceRepository->findAll();
         return $this->json($annonces, 200, [], ['groups' => 'adminAnnonceDisplay']);
     }
+    /**
+     * @Route("admin/allUsers", name="adminAllUsers")
+     */
+    public function displayAllUsers(UserRepository $repository): Response
+    {
+        $users = $repository->findAll();
+        return $this->json($users);
+    }
 }

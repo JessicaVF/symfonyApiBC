@@ -138,4 +138,5 @@ class AnnonceController extends AbstractController
         return $this->json($annonces, 200, [], ['groups' => 'annonceDisplay']);
 
     }
+
 }
